@@ -1,0 +1,634 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "63f2d22d",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: numpy in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (1.24.1)\n",
+      "Note: you may need to restart the kernel to use updated packages.\n",
+      "Requirement already satisfied: pandas in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (1.5.3)\n",
+      "Requirement already satisfied: python-dateutil>=2.8.1 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from pandas) (2.8.2)\n",
+      "Requirement already satisfied: pytz>=2020.1 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from pandas) (2022.4)\n",
+      "Requirement already satisfied: numpy>=1.21.0 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from pandas) (1.24.1)\n",
+      "Requirement already satisfied: six>=1.5 in /opt/homebrew/opt/six/lib/python3.11/site-packages (from python-dateutil>=2.8.1->pandas) (1.16.0)\n",
+      "Note: you may need to restart the kernel to use updated packages.\n",
+      "Requirement already satisfied: seaborn in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (0.12.2)\n",
+      "Requirement already satisfied: numpy!=1.24.0,>=1.17 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from seaborn) (1.24.1)\n",
+      "Requirement already satisfied: pandas>=0.25 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from seaborn) (1.5.3)\n",
+      "Requirement already satisfied: matplotlib!=3.6.1,>=3.1 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from seaborn) (3.6.3)\n",
+      "Requirement already satisfied: contourpy>=1.0.1 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from matplotlib!=3.6.1,>=3.1->seaborn) (1.0.7)\n",
+      "Requirement already satisfied: cycler>=0.10 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from matplotlib!=3.6.1,>=3.1->seaborn) (0.11.0)\n",
+      "Requirement already satisfied: fonttools>=4.22.0 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from matplotlib!=3.6.1,>=3.1->seaborn) (4.38.0)\n",
+      "Requirement already satisfied: kiwisolver>=1.0.1 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from matplotlib!=3.6.1,>=3.1->seaborn) (1.4.4)\n",
+      "Requirement already satisfied: packaging>=20.0 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from matplotlib!=3.6.1,>=3.1->seaborn) (21.3)\n",
+      "Requirement already satisfied: pillow>=6.2.0 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from matplotlib!=3.6.1,>=3.1->seaborn) (9.4.0)\n",
+      "Requirement already satisfied: pyparsing>=2.2.1 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from matplotlib!=3.6.1,>=3.1->seaborn) (3.0.9)\n",
+      "Requirement already satisfied: python-dateutil>=2.7 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from matplotlib!=3.6.1,>=3.1->seaborn) (2.8.2)\n",
+      "Requirement already satisfied: pytz>=2020.1 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from pandas>=0.25->seaborn) (2022.4)\n",
+      "Requirement already satisfied: six>=1.5 in /opt/homebrew/opt/six/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib!=3.6.1,>=3.1->seaborn) (1.16.0)\n",
+      "Note: you may need to restart the kernel to use updated packages.\n",
+      "Requirement already satisfied: matplotlib in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (3.6.3)\n",
+      "Requirement already satisfied: contourpy>=1.0.1 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from matplotlib) (1.0.7)\n",
+      "Requirement already satisfied: cycler>=0.10 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from matplotlib) (0.11.0)\n",
+      "Requirement already satisfied: fonttools>=4.22.0 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from matplotlib) (4.38.0)\n",
+      "Requirement already satisfied: kiwisolver>=1.0.1 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from matplotlib) (1.4.4)\n",
+      "Requirement already satisfied: numpy>=1.19 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from matplotlib) (1.24.1)\n",
+      "Requirement already satisfied: packaging>=20.0 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from matplotlib) (21.3)\n",
+      "Requirement already satisfied: pillow>=6.2.0 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from matplotlib) (9.4.0)\n",
+      "Requirement already satisfied: pyparsing>=2.2.1 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from matplotlib) (3.0.9)\n",
+      "Requirement already satisfied: python-dateutil>=2.7 in /opt/homebrew/Cellar/jupyterlab/3.4.8_1/libexec/lib/python3.11/site-packages (from matplotlib) (2.8.2)\n",
+      "Requirement already satisfied: six>=1.5 in /opt/homebrew/opt/six/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib) (1.16.0)\n",
+      "Note: you may need to restart the kernel to use updated packages.\n"
+     ]
+    }
+   ],
+   "source": [
+    "%pip install numpy\n",
+    "%pip install pandas\n",
+    "%pip install seaborn\n",
+    "%pip install matplotlib"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "ad2ff4df",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import numpy as np \n",
+    "import pandas as pd \n",
+    "import seaborn as sns\n",
+    "import matplotlib.pyplot as plt\n",
+    "from sklearn.preprocessing import LabelEncoder\n",
+    "from sklearn.ensemble import RandomForestRegressor"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "e762b3be",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import warnings\n",
+    "warnings.filterwarnings('ignore')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "4277d902",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "dp=pd.read_csv('https://raw.githubusercontent.com/harshit5674/DATA-MINING/main/datasets/Iris.csv')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3b6566be",
+   "metadata": {},
+   "source": [
+    "The Iris dataset was used in R.A. Fisher's classic 1936 paper.\n",
+    "\n",
+    "It includes three iris species with 50 samples each as well as some properties about each flower. One flower species is linearly separable from the other two, but the other two are not linearly separable from each other."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "613ecc12",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Id</th>\n",
+       "      <th>SepalLengthCm</th>\n",
+       "      <th>SepalWidthCm</th>\n",
+       "      <th>PetalLengthCm</th>\n",
+       "      <th>PetalWidthCm</th>\n",
+       "      <th>Species</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>1</td>\n",
+       "      <td>5.1</td>\n",
+       "      <td>3.5</td>\n",
+       "      <td>1.4</td>\n",
+       "      <td>0.2</td>\n",
+       "      <td>Iris-setosa</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>2</td>\n",
+       "      <td>4.9</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>1.4</td>\n",
+       "      <td>0.2</td>\n",
+       "      <td>Iris-setosa</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>3</td>\n",
+       "      <td>4.7</td>\n",
+       "      <td>3.2</td>\n",
+       "      <td>1.3</td>\n",
+       "      <td>0.2</td>\n",
+       "      <td>Iris-setosa</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>4</td>\n",
+       "      <td>4.6</td>\n",
+       "      <td>3.1</td>\n",
+       "      <td>1.5</td>\n",
+       "      <td>0.2</td>\n",
+       "      <td>Iris-setosa</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>5</td>\n",
+       "      <td>5.0</td>\n",
+       "      <td>3.6</td>\n",
+       "      <td>1.4</td>\n",
+       "      <td>0.2</td>\n",
+       "      <td>Iris-setosa</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>145</th>\n",
+       "      <td>146</td>\n",
+       "      <td>6.7</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>5.2</td>\n",
+       "      <td>2.3</td>\n",
+       "      <td>Iris-virginica</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>146</th>\n",
+       "      <td>147</td>\n",
+       "      <td>6.3</td>\n",
+       "      <td>2.5</td>\n",
+       "      <td>5.0</td>\n",
+       "      <td>1.9</td>\n",
+       "      <td>Iris-virginica</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>147</th>\n",
+       "      <td>148</td>\n",
+       "      <td>6.5</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>5.2</td>\n",
+       "      <td>2.0</td>\n",
+       "      <td>Iris-virginica</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>148</th>\n",
+       "      <td>149</td>\n",
+       "      <td>6.2</td>\n",
+       "      <td>3.4</td>\n",
+       "      <td>5.4</td>\n",
+       "      <td>2.3</td>\n",
+       "      <td>Iris-virginica</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>149</th>\n",
+       "      <td>150</td>\n",
+       "      <td>5.9</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>5.1</td>\n",
+       "      <td>1.8</td>\n",
+       "      <td>Iris-virginica</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>150 rows × 6 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "      Id  SepalLengthCm  SepalWidthCm  PetalLengthCm  PetalWidthCm  \\\n",
+       "0      1            5.1           3.5            1.4           0.2   \n",
+       "1      2            4.9           3.0            1.4           0.2   \n",
+       "2      3            4.7           3.2            1.3           0.2   \n",
+       "3      4            4.6           3.1            1.5           0.2   \n",
+       "4      5            5.0           3.6            1.4           0.2   \n",
+       "..   ...            ...           ...            ...           ...   \n",
+       "145  146            6.7           3.0            5.2           2.3   \n",
+       "146  147            6.3           2.5            5.0           1.9   \n",
+       "147  148            6.5           3.0            5.2           2.0   \n",
+       "148  149            6.2           3.4            5.4           2.3   \n",
+       "149  150            5.9           3.0            5.1           1.8   \n",
+       "\n",
+       "            Species  \n",
+       "0       Iris-setosa  \n",
+       "1       Iris-setosa  \n",
+       "2       Iris-setosa  \n",
+       "3       Iris-setosa  \n",
+       "4       Iris-setosa  \n",
+       "..              ...  \n",
+       "145  Iris-virginica  \n",
+       "146  Iris-virginica  \n",
+       "147  Iris-virginica  \n",
+       "148  Iris-virginica  \n",
+       "149  Iris-virginica  \n",
+       "\n",
+       "[150 rows x 6 columns]"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "dp"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "6cf35b28",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Id</th>\n",
+       "      <th>SepalLengthCm</th>\n",
+       "      <th>SepalWidthCm</th>\n",
+       "      <th>PetalLengthCm</th>\n",
+       "      <th>PetalWidthCm</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>count</th>\n",
+       "      <td>150.000000</td>\n",
+       "      <td>150.000000</td>\n",
+       "      <td>150.000000</td>\n",
+       "      <td>150.000000</td>\n",
+       "      <td>150.000000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>mean</th>\n",
+       "      <td>75.500000</td>\n",
+       "      <td>5.843333</td>\n",
+       "      <td>3.054000</td>\n",
+       "      <td>3.758667</td>\n",
+       "      <td>1.198667</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>std</th>\n",
+       "      <td>43.445368</td>\n",
+       "      <td>0.828066</td>\n",
+       "      <td>0.433594</td>\n",
+       "      <td>1.764420</td>\n",
+       "      <td>0.763161</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>min</th>\n",
+       "      <td>1.000000</td>\n",
+       "      <td>4.300000</td>\n",
+       "      <td>2.000000</td>\n",
+       "      <td>1.000000</td>\n",
+       "      <td>0.100000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>25%</th>\n",
+       "      <td>38.250000</td>\n",
+       "      <td>5.100000</td>\n",
+       "      <td>2.800000</td>\n",
+       "      <td>1.600000</td>\n",
+       "      <td>0.300000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>50%</th>\n",
+       "      <td>75.500000</td>\n",
+       "      <td>5.800000</td>\n",
+       "      <td>3.000000</td>\n",
+       "      <td>4.350000</td>\n",
+       "      <td>1.300000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>75%</th>\n",
+       "      <td>112.750000</td>\n",
+       "      <td>6.400000</td>\n",
+       "      <td>3.300000</td>\n",
+       "      <td>5.100000</td>\n",
+       "      <td>1.800000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>max</th>\n",
+       "      <td>150.000000</td>\n",
+       "      <td>7.900000</td>\n",
+       "      <td>4.400000</td>\n",
+       "      <td>6.900000</td>\n",
+       "      <td>2.500000</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "               Id  SepalLengthCm  SepalWidthCm  PetalLengthCm  PetalWidthCm\n",
+       "count  150.000000     150.000000    150.000000     150.000000    150.000000\n",
+       "mean    75.500000       5.843333      3.054000       3.758667      1.198667\n",
+       "std     43.445368       0.828066      0.433594       1.764420      0.763161\n",
+       "min      1.000000       4.300000      2.000000       1.000000      0.100000\n",
+       "25%     38.250000       5.100000      2.800000       1.600000      0.300000\n",
+       "50%     75.500000       5.800000      3.000000       4.350000      1.300000\n",
+       "75%    112.750000       6.400000      3.300000       5.100000      1.800000\n",
+       "max    150.000000       7.900000      4.400000       6.900000      2.500000"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "dp.describe()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "78fed7a8",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "dp=dp.drop(['Id'],axis=1)\n",
+    "y_train=dp['Species']\n",
+    "X_train=dp.drop(['Species'],axis=1)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "bf04a693",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "le = LabelEncoder()\n",
+    "y_train=le.fit_transform(y_train)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "437869a1",
+   "metadata": {},
+   "source": [
+    "The above cell encodes the categorical variable into numerical variable, it is required to convert categorical varibles into numeric varibles before training a model on them."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d651450a",
+   "metadata": {},
+   "source": [
+    "Forward Selection\n",
+    "\n",
+    "\n",
+    "Forward selection is an iterative method in which we start with having no feature in the model. In each iteration, we keep adding the feature which best improves our model till an addition of a new variable does not improve the performance of the model.\n",
+    "\n",
+    "The procedure starts with an empty set of features. The best of the original features is determined and added to the reduced set. At each subsequent iteration, the best of the remaining original attributes is added to the set.\n",
+    "\n",
+    "Step forward feature selection starts by evaluating all features individually and selects the one that generates the best performing algorithm, according to a pre-set evaluation criteria. In the second step, it evaluates all possible combinations of the selected feature and a second feature, and selects the pair that produce the best performing algorithm based on the same pre-set criteria.\n",
+    "\n",
+    "There is a special package for python that implements this type of feature selection: mlxtend."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "b145a661",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.\n",
+      "[Parallel(n_jobs=1)]: Done   1 out of   1 | elapsed:    0.1s remaining:    0.0s\n",
+      "[Parallel(n_jobs=1)]: Done   4 out of   4 | elapsed:    0.5s finished\n",
+      "\n",
+      "[2023-02-01 17:59:03] Features: 1/2 -- score: 0.0[Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.\n",
+      "[Parallel(n_jobs=1)]: Done   1 out of   1 | elapsed:    0.1s remaining:    0.0s\n",
+      "[Parallel(n_jobs=1)]: Done   3 out of   3 | elapsed:    0.3s finished\n",
+      "\n",
+      "[2023-02-01 17:59:04] Features: 2/2 -- score: 0.0"
+     ]
+    }
+   ],
+   "source": [
+    "from mlxtend.feature_selection import SequentialFeatureSelector as SFS\n",
+    "\n",
+    "sfs1 = SFS(RandomForestRegressor(), \n",
+    "           k_features=2, \n",
+    "           forward=True, \n",
+    "           floating=False, \n",
+    "           verbose=2,\n",
+    "           scoring='r2',\n",
+    "           cv=3)\n",
+    "\n",
+    "sfs1 = sfs1.fit(np.array(X_train), np.array(y_train))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "91cec001",
+   "metadata": {},
+   "source": [
+    "You can set the desired number of features in the k_features variable."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "60d77f72",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(0, 1)"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "sfs1.k_feature_idx_"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "f7ac0d48",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Index(['SepalLengthCm', 'SepalWidthCm'], dtype='object')"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "X_train.columns[list(sfs1.k_feature_idx_)]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "78d3179b",
+   "metadata": {},
+   "source": [
+    "These are the features that forward selection selected."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7ffae8fa",
+   "metadata": {},
+   "source": [
+    "Backward Elimination\n",
+    "\n",
+    "In backward elimination, we start with all the features and removes the least significant feature at each iteration which improves the performance of the model. We repeat this until no improvement is observed on removal of features.\n",
+    "\n",
+    "The procedure starts with the full set of attributes. At each step, it removes the worst attribute remaining in the set."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "c6306a8e",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "[Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.\n",
+      "[Parallel(n_jobs=1)]: Done   1 out of   1 | elapsed:    0.1s remaining:    0.0s\n",
+      "[Parallel(n_jobs=1)]: Done   4 out of   4 | elapsed:    0.5s finished\n",
+      "\n",
+      "[2023-02-01 17:59:04] Features: 3/3 -- score: 0.0"
+     ]
+    }
+   ],
+   "source": [
+    "sfs2 = SFS(RandomForestRegressor(), \n",
+    "           k_features=3, \n",
+    "           forward=False, \n",
+    "           floating=False, \n",
+    "           verbose=2,\n",
+    "           scoring='r2',\n",
+    "           cv=3)\n",
+    "\n",
+    "sfs2 = sfs2.fit(np.array(X_train), np.array(y_train))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "a337a9a5",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Index(['SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm'], dtype='object')"
+      ]
+     },
+     "execution_count": 13,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "X_train.columns[list(sfs2.k_feature_idx_)]"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.1"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
